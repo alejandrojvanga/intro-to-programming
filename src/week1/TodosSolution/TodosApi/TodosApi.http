@@ -2,3 +2,20 @@
 
 GET {{TodosApi_HostAddress}}/status
 Accept: applications/json
+
+
+###
+
+POST {{TodosApi_HostAddress}}/todos
+Accept: application/json
+Content-Type: application/json
+ 
+{
+    "description": "Clean Garage"
+}
+
+
+###
+
+GET {{TodosApi_HostAddress}}/todos
+Accept: application/json
