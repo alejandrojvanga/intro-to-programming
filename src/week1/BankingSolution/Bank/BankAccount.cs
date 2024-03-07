@@ -4,7 +4,7 @@ namespace Bank;
 public class BankAccount
 {
     private decimal _currentBalance = 5000M;
-    public void Deposit(decimal amountToDeposit)
+    public virtual void Deposit(decimal amountToDeposit)
     {
         GuardTransactionAmount(amountToDeposit);
         _currentBalance += amountToDeposit;

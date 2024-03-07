@@ -10,7 +10,7 @@ public class GoldCustomerDeposits
     public void MakingADespositIncreasesBalance(decimal amountToDeposit, decimal expected)
     {
         // given
-        var account = new BankAccount();
+        var account = new GoldAccount();
         var openingBalance = account.GetBalance();
 
         // when
