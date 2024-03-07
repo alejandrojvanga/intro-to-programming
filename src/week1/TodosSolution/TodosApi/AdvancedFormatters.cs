@@ -1,9 +1,9 @@
 ﻿namespace TodosApi;
 
-public class Utils : IFormatDisplayInformation
+public class AdvancedFormatters : IFormatDisplayInformation
 {
     public string FormatName(string firstName, string lastName)
     {
-        return $"{firstName} {lastName}";
+        return $"{lastName}, {firstName}";
     }
 }

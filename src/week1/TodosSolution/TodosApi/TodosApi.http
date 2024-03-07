@@ -1,17 +1,19 @@
 @TodosApi_HostAddress = http://localhost:1337
 
+
 GET {{TodosApi_HostAddress}}/status
-Accept: applications/json
+Accept: application/json
 
 
-###
+
+### 
 
 POST {{TodosApi_HostAddress}}/todos
 Accept: application/json
 Content-Type: application/json
- 
+
 {
-    "description": "Attend Overgrown Garden"
+    "description": "fix this"
 }
 
 
@@ -19,3 +21,4 @@ Content-Type: application/json
 
 GET {{TodosApi_HostAddress}}/todos
 Accept: application/json
+

@@ -9,13 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionsString = builder.Configuration.GetConnectionString("todos") ??
+builder.Services.AddScoped<IFormatDisplayInformation, AdvancedFormatters>();
+var connectionString = builder.Configuration.GetConnectionString("todos") ??
     throw new Exception("Can't start, need a connection string");
 
 builder.Services.AddMarten(options =>
 {
-    options.Connection(connectionsString);
+    options.Connection(connectionString);
 }).UseLightweightSessions();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,35 +27,41 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Get /status
-app.MapGet("/status", () =>
+// GET /status
+app.MapGet("/status", ([FromServices] IFormatDisplayInformation utils) =>
 {
-    return Results.Ok();
+    // the status the server, the name of the support tech, and a support phone number.
+
+    var response = new StatusResponse
+    {
+        CheckedAt = DateTimeOffset.Now,
+        Message = "Looks Good",
+        SupportTech = utils.FormatName("Bob", "Smith")
+    };
+    return Results.Ok(response);
 });
 
-app.MapPost("/todos", async ([FromBody] TodoCreateRequest resquest, [FromServices] IDocumentSession session) =>
+app.MapPost("/todos", async ([FromBody] TodoCreateRequest request,
+    [FromServices] IDocumentSession session) =>
 {
-    // fake it
-    var responce = new TodoCreateResponce
+    var response = new TodoCreateResponse
     {
         Id = Guid.NewGuid(),
-        Description = resquest.Description,
+        Description = request.What,
         Status = TodoStatus.Incomplete
     };
-    session.Store(responce);
-    await session.SaveChangesAsync();
-    return Results.Ok(responce);
-}
-);
+    session.Store(response);
+    await session.SaveChangesAsync(); // actually write it to the database.
+    return Results.Ok(response);
+});
 
 app.MapGet("/todos", async ([FromServices] IDocumentSession session) =>
 {
-    var todoList = await session.Query<TodoCreateResponce>().ToListAsync();
+    var todoList = await session.Query<TodoCreateResponse>().ToListAsync();
     return Results.Ok(todoList);
 });
-
-//Console.WriteLine("Fixin to start the server");
-app.Run();
-//Console.WriteLine("Done running the server");
-
+// "Routing Table"
+app.Run(); // This starts the server and it blocks. It just listens for requests.
 public partial class Program { }
+
+

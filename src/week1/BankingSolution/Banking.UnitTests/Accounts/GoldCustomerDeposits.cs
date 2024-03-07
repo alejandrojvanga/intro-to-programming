@@ -10,11 +10,11 @@ public class GoldCustomerDeposits
     {
         // Given 
         var stubbedBonusCalculator = Substitute.For<ICalculateBonusesForDeposits>();
-        var account = new BankAccount(new StubbedBonusCalculator());
+        var account = new BankAccount(stubbedBonusCalculator);
         var amountToDeposit = 142.23M;
         var expectedBonus = 13.23M;
         var openingBalance = account.GetBalance();
-        stubbedBonusCalculator.CalculateDepositBonusFor(openingBalance, amountToDeposit).Returns(12.23M);
+        stubbedBonusCalculator.CalculateDepositBonusFor(openingBalance, amountToDeposit).Returns(13.23M);
         // When
         // WTCYWYH 
         // Command - Telling it to do some work.
