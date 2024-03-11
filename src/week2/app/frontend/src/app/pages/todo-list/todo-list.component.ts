@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TodoEntryComponent } from './components/todo-entry/todo-entry.component';
 import { TodoItemListComponent } from './components/todo-item-list/todo-item-list.component';
+import { TodoListItem } from './models';
 
 @Component({
   selector: 'app-todo-list',
@@ -19,4 +20,9 @@ import { TodoItemListComponent } from './components/todo-item-list/todo-item-lis
   styles: ``,
   imports: [TodoEntryComponent, TodoItemListComponent],
 })
-export class TodoListComponent {}
+export class TodoListComponent {
+  list: TodoListItem[] = [
+    { id: '1', description: 'Clean Car', completed: false },
+    { id: '2', description: 'Buy Beer', completed: true },
+  ];
+}
