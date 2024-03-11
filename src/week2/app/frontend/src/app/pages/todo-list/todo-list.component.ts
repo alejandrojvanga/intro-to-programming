@@ -14,7 +14,7 @@ import { TodoListItem } from './models';
       <app-todo-entry (itemAdded)="addItem($event)" />
     </div>
     <div>
-      <app-todo-item-list />
+      <app-todo-item-list [list]="todoList" />
     </div>
   `,
   styles: ``,
@@ -22,6 +22,16 @@ import { TodoListItem } from './models';
 })
 export class TodoListComponent {
   addItem(item: { description: string }) {
-    console.log('The Pargent Got an Item', item);
+    const itemToAdd: TodoListItem = {
+      id: crypto.randomUUID(),
+      description: item.description,
+      completed: false,
+    };
+    this.todoList = [itemToAdd, ...this.todoList];
   }
+
+  todoList: TodoListItem[] = [
+    { id: '3', description: 'Learn Signals', completed: false },
+    { id: '4', description: 'Learn Redux', completed: true },
+  ];
 }

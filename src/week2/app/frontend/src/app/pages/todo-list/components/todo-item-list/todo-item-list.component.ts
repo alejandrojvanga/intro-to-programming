@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TodoListItem } from '../../models';
 import { NgClass } from '@angular/common';
 
@@ -31,11 +31,7 @@ import { NgClass } from '@angular/common';
   styles: ``,
 })
 export class TodoItemListComponent {
-  list: TodoListItem[] = [
-    { id: '1', description: 'Clean Car', completed: false },
-    { id: '2', description: 'Buy Beer', completed: true },
-  ];
-
+  @Input({ required: true }) list: TodoListItem[] = [];
   markComplete(item: TodoListItem) {
     item.completed = true;
   }
