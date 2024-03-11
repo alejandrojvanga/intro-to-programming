@@ -1,24 +1,46 @@
 import { Component } from '@angular/core';
+import { TodoListItem } from '../../models';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-todo-item-list',
   standalone: true,
-  imports: [],
+  imports: [NgClass],
   template: ` <ul>
+    @for(item of list; track item.id) {
     <li class="card bg-base-300 shadow-xl mb-4">
       <div class="card-body">
-        <span>Clean Garage</span>
+        <span [ngClass]="{ 'line-through': item.completed }">{{
+          item.description
+        }}</span>
         <div class="card-actions justify-end">
-          <button class="btn btn-sm btn-primary">X</button>
+          @if(item.completed === false) {
+          <button (click)="markComplete(item)" class="btn btn-sm btn-primary">
+            X
+          </button>
+          } @else {
+          <button (click)="markInComplete(item)" class="btn btn-sm btn-accent">
+            +
+          </button>
+          }
         </div>
       </div>
     </li>
-    <li class="card bg-base-300 shadow-xl mb-4">
-      <div class="card-body">
-        <span class="line-through font-light">Clean Garage</span>
-      </div>
-    </li>
+    }
   </ul>`,
   styles: ``,
 })
-export class TodoItemListComponent {}
+export class TodoItemListComponent {
+  list: TodoListItem[] = [
+    { id: '1', description: 'Clean Car', completed: false },
+    { id: '2', description: 'Buy Beer', completed: true },
+  ];
+
+  markComplete(item: TodoListItem) {
+    item.completed = true;
+  }
+
+  markInComplete(item: TodoListItem) {
+    item.completed = false;
+  }
+}
