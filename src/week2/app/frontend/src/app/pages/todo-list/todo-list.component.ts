@@ -11,7 +11,7 @@ import { TodoListItem } from './models';
       <h2 class="text-2xl font-bold">Your Todo List</h2>
     </section>
     <div>
-      <app-todo-entry />
+      <app-todo-entry (itemAdded)="addItem($event)" />
     </div>
     <div>
       <app-todo-item-list />
@@ -21,8 +21,7 @@ import { TodoListItem } from './models';
   imports: [TodoEntryComponent, TodoItemListComponent],
 })
 export class TodoListComponent {
-  list: TodoListItem[] = [
-    { id: '1', description: 'Clean Car', completed: false },
-    { id: '2', description: 'Buy Beer', completed: true },
-  ];
+  addItem(item: { description: string }) {
+    console.log('The Pargent Got an Item', item);
+  }
 }
