@@ -4,3 +4,10 @@ GET {{Bff.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{Bff.Api_HostAddress}}/todos
+Content-Type: application/json
+ 
+{
+  "description": "Buy Beer"
+}
