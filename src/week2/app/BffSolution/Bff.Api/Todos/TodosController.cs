@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bff.Api.Todos;
 
+[ApiController]
 public class TodosController(TodosDataContext _context) : ControllerBase
 {
     [HttpGet("/todos")]
