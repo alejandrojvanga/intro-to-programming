@@ -8,9 +8,9 @@ namespace Bff.Api.Todos;
 public class TodosController(TodosDataContext _context) : ControllerBase
 {
     [HttpGet("/todos")]
-    public async Task<IActionResult> GetAllTodosAsync()
+    public async Task<ActionResult<GetTodoListResponse>> GetAllTodosAsync()
     {
-        var response = await _context.Todos
+        var list = await _context.Todos
             .OrderBy(t => t.CreatedDate)
             .Select(t => new CreateTodoResponse
             {
@@ -19,12 +19,20 @@ public class TodosController(TodosDataContext _context) : ControllerBase
                 DueDate = t.DueDate,
                 Priority = t.Priority
             }).ToListAsync();
-        return Ok(new { list = response });
+        var response = new GetTodoListResponse { List = list };
+        return Ok(response);
     }
 
     [HttpPost("/todos")]
     public async Task<IActionResult> AddATodoAsync([FromBody] CreateTodoRequest request)
     {
+
+
+        // validate it - description is required, min length 3, maximum length 150
+        //               dueDate >= Today's Date
+        // If it's not valid, return a 400. 
+        // if it is valid -
+        // Write something to the database (we are stateless here)
         var todoToAdd = new TodoEntity
         {
             Description = request.Description,
@@ -34,11 +42,10 @@ public class TodosController(TodosDataContext _context) : ControllerBase
         };
         _context.Todos.Add(todoToAdd);
         await _context.SaveChangesAsync();
-
-
+        // send them back 
         var response = new CreateTodoResponse
         {
-            Id = Guid.NewGuid(),
+            Id = todoToAdd.Id,
             Description = todoToAdd.Description,
             DueDate = todoToAdd.DueDate,
             Priority = todoToAdd.Priority

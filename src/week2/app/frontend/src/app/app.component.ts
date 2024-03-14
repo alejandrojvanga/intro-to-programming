@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
-import { DemoComponent } from './components/demo/demo.component';
 import { RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { ApplicationActions } from './state/actions';
 import { Store } from '@ngrx/store';
+import { ApplicationActions } from './state/actions';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +13,10 @@ import { Store } from '@ngrx/store';
       <app-page-header />
       <nav>
         <app-nav-bar />
-        <main>
-          <router-outlet />
-        </main>
       </nav>
+      <main>
+        <router-outlet />
+      </main>
     </div>
   `,
   styles: [],

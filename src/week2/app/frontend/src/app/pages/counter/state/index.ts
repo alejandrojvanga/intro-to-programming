@@ -1,4 +1,10 @@
-import { createFeature, createReducer, on } from '@ngrx/store';
+import {
+  createFeature,
+  createReducer,
+  createSelector,
+  on,
+  select,
+} from '@ngrx/store';
 import { CountByValues, CounterActions } from './actions';
 
 export interface CounterState {
@@ -23,11 +29,27 @@ export const counterFeature = createFeature({
       ...state,
       current: state.current - state.by,
     })),
-    on(CounterActions.countReset, () => initialState),
+    on(CounterActions.countWasReset, (state) => ({
+      ...state,
+      current: initialState.current,
+    })),
     on(CounterActions.countByChanged, (state, action) => ({
       ...state,
       by: action.payload,
     })),
     on(CounterActions.state, (_, a) => a.payload)
   ),
+  extraSelectors: ({ selectCurrent, selectBy }) => ({
+    isEven: createSelector(selectCurrent, (c) => c % 2 === 0),
+    nextValueIfIncrement: createSelector(
+      selectCurrent,
+      selectBy,
+      (c, b) => c + b
+    ),
+    nextValueIfDecrement: createSelector(
+      selectCurrent,
+      selectBy,
+      (c, b) => c - b
+    ),
+  }),
 });

@@ -15,6 +15,7 @@ import { RouterLink } from '@angular/router';
   styles: ``,
 })
 export class PageHeaderComponent {
-  someThing = 'tacos';
+  someThing = 'Tacos';
+
   anotherThing = 'cheese';
 }

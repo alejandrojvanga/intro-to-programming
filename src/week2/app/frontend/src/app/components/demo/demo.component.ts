@@ -8,9 +8,7 @@ import { Component, signal } from '@angular/core';
     <p>
       {{ counter() }}
     </p>
-    <button (click)="doIt()" class="btn btn-primary">
-      Change the text above
-    </button>
+    <button (click)="doIt()" class="btn btn-primary">Increment</button>
   `,
   styles: ``,
 })

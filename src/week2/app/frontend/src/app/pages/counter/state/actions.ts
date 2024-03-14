@@ -7,7 +7,7 @@ export const CounterActions = createActionGroup({
   events: {
     'Incremented The Count': emptyProps(),
     'Decremented The Count': emptyProps(),
-    'Count Reset': emptyProps(),
+    'Count was Reset': emptyProps(),
     'Count By Changed': props<{ payload: CountByValues }>(),
     'Counter Entered': emptyProps(),
     State: props<{ payload: CounterState }>(),
