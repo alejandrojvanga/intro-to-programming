@@ -17,5 +17,6 @@ export const TodoDocuments = createActionGroup({
   source: 'Todo Documents',
   events: {
     Todos: props<{ payload: TodoEntity[] }>(),
+    Todo: props<{ payload: TodoEntity }>(),
   },
 });

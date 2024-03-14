@@ -1,18 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs';
+import { map, merge, mergeMap, switchMap } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ApplicationActions } from '../../../state/actions';
-import { TodoCommands, TodoDocuments } from './actions';
+import { TodoCommands, TodoDocuments, TodoEvents } from './actions';
 import { TodoEntity } from '../types';
 @Injectable()
 export class TodoEffects {
   readonly baseUrl = environment.apiUrl;
-  onStartup$ = createEffect(() =>
+  addTodo$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ApplicationActions.applicationStarted),
-      map(() => TodoCommands.loadTodos())
+      ofType(TodoEvents.todoItemAdded),
+      mergeMap((a) =>
+        this.httpClient
+          .post<TodoEntity>(this.baseUrl + '/todos', {
+            description: a.playload,
+          })
+          .pipe(map((payload) => TodoDocuments.todo({ payload })))
+      )
     )
   );
 

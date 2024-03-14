@@ -8,7 +8,7 @@ namespace Bff.Api.Todos;
 public class TodosController(TodosDataContext _context) : ControllerBase
 {
     [HttpGet("/todos")]
-    public async Task<ActionResult<GetTodoListResponse>> GetAllTodosAsync()
+    public async Task<ActionResult<GetTodoListResponse>> GetAllTodosAsync(CancellationToken token)
     {
         var list = await _context.Todos
             .OrderBy(t => t.CreatedDate)
@@ -24,7 +24,7 @@ public class TodosController(TodosDataContext _context) : ControllerBase
     }
 
     [HttpPost("/todos")]
-    public async Task<IActionResult> AddATodoAsync([FromBody] CreateTodoRequest request)
+    public async Task<ActionResult<CreateTodoResponse>> AddATodoAsync([FromBody] CreateTodoRequest request)
     {
         var todoToAdd = new TodoEntity
         {
