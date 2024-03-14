@@ -2,13 +2,6 @@
 
 namespace Bff.Api.Todos;
 
-
-/* {
-    "description": "Buy Beer",
-    "dueDate": "ISO8601 Date String",
-    "priority": "High" | "Low" | undefined
-} */
-
 public record CreateTodoRequest
 {
     [Required, MinLength(3), MaxLength(124)]
@@ -20,14 +13,6 @@ public record CreateTodoRequest
 }
 
 public enum TodoPriority { Low, High };
-
-
-/*{
-    "id": "38938938",
-    "dueDate": "893893",
-    "description": "Buy Beer",
-    "priority": "Low"
-} */
 
 public record CreateTodoResponse
 {
