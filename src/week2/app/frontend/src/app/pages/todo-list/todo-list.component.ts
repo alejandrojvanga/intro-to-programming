@@ -37,10 +37,10 @@ export class TodoListComponent {
   addItem(item: { description: string }) {
     // Todo: Dispatch An Action
   }
+
   reload() {
     this.store.dispatch(TodoCommands.loadTodos());
   }
   loaded = this.store.selectSignal(todosFeature.selectIsLoaded);
-
   todoList = this.store.selectSignal(todosFeature.selectTodoListItems);
 }

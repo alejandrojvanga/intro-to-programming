@@ -7,11 +7,12 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TodoEvents } from '../../state/actions';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-todo-entry',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, JsonPipe],
   template: `
     <form [formGroup]="form" (ngSubmit)="addItem()">
       <div>
@@ -57,16 +58,17 @@ export class TodoEntryComponent {
     }),
   });
 
-  private store = inject(Store);
+  private store = inject(Store); //  this or constructor(private store:Store)
 
   get description() {
     return this.form.controls.description;
   }
+
   addItem() {
     if (this.form.valid) {
       this.store.dispatch(
         TodoEvents.todoItemAdded({
-          playload: this.form.controls.description.value,
+          payload: this.form.controls.description.value,
         })
       );
     }

@@ -18,10 +18,9 @@ export const todosFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(TodoDocuments.todos, (s, a) => adapter.setAll(a.payload, s)), //
-    on(TodoDocuments.todo, (s, a) => adapter.addOne(a.payload, s)),
+    on(TodoDocuments.todo, (s, a) => adapter.upsertOne(a.payload, s)),
     on(TodoDocuments.todos, (s) => ({ ...s, isLoaded: true }))
   ),
-
   extraSelectors: ({ selectTodosState }) => {
     const { selectAll } = adapter.getSelectors();
     const todosArray = createSelector(selectTodosState, (s) => selectAll(s));
@@ -31,7 +30,7 @@ export const todosFeature = createFeature({
           (t) =>
             ({
               id: t.id,
-              completed: false,
+              completed: t.completed,
               description: t.description,
             } as TodoListItem)
         )

@@ -8,6 +8,14 @@ import { ApplicationActions } from '../../../state/actions';
 
 @Injectable()
 export class CounterEffects {
+  //   logTheActions$ = createEffect(
+  //     () => this.actions.pipe(tap((a) => console.log(a.type))),
+  //     { dispatch: false }
+  //   );
+
+  //
+  // Turn a counterEntered => state(initialState | what they stored)
+
   loadTheDataOnApplicationStart$ = createEffect(() =>
     this.actions.pipe(
       ofType(ApplicationActions.applicationStarted),
@@ -19,7 +27,7 @@ export class CounterEffects {
     () =>
       this.actions.pipe(
         ofType(CounterActions.counterEntered),
-        map(() => localStorage.getItem('counter')),
+        map(() => localStorage.getItem('counter')), // string | null
         map((stuff) => (stuff === null ? initialState : JSON.parse(stuff))),
         map((payload) => CounterActions.state({ payload }))
       ),
